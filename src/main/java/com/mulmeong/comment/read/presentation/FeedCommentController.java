@@ -20,7 +20,7 @@ public class FeedCommentController {
 
     private final FeedCommentService feedCommentService;
 
-    @GetMapping("/comment/{feedUuid}/comments")
+    @GetMapping("/{feedUuid}/comments")
     @Operation(summary = "피드 댓글 최신순 , 추천순 조회", tags = {"Feed Comment Service"})
     public BaseResponse<CursorPage<FeedCommentResponseVo>> getFeedCommentsByPage(
             @PathVariable String feedUuid,

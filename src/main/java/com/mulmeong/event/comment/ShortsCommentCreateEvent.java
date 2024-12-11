@@ -29,9 +29,9 @@ public class ShortsCommentCreateEvent {
                 .isDeleted(isDeleted)
                 .createdAt(createdAt)
                 .updatedAt(updatedAt)
-                .likeCount(0)
-                .dislikeCount(0)
-                .recommentCount(0)
+                .likeCount(0L)
+                .dislikeCount(0L)
+                .recommentCount(0L)
                 .build();
     }
 

@@ -21,8 +21,8 @@ public class FeedComment {
     private boolean isDeleted;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    private Integer likeCount;
-    private Integer dislikeCount;
-    private Integer recommentCount;
+    private Long likeCount;
+    private Long dislikeCount;
+    private Long recommentCount;
     private String customCursor;
 }

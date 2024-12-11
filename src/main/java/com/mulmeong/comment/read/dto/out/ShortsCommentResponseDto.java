@@ -17,9 +17,9 @@ public class ShortsCommentResponseDto {
     private String content;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    private Integer likeCount;
-    private Integer dislikeCount;
-    private Integer recommentCount;
+    private Long likeCount;
+    private Long dislikeCount;
+    private Long recommentCount;
     private boolean isDeleted;
 
     public static ShortsCommentResponseDto toDto(ShortsComment shortsComment) {

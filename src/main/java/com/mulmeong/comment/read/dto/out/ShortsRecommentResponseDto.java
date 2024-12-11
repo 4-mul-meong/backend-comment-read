@@ -17,8 +17,8 @@ public class ShortsRecommentResponseDto {
     private String content;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    private Integer likeCount;
-    private Integer dislikeCount;
+    private Long likeCount;
+    private Long dislikeCount;
 
     public static ShortsRecommentResponseDto toDto(ShortsRecomment shortsRecomment) {
         return ShortsRecommentResponseDto.builder()

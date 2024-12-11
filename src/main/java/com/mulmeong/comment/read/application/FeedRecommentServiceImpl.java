@@ -26,13 +26,11 @@ public class FeedRecommentServiceImpl implements FeedRecommentService {
 
     private final FeedRecommentRepository feedRecommentRepository;
     private final FeedRecommentRepositoryCustom feedRecommentRepositoryCustom;
-    private final MongoTemplate mongoTemplate;
 
     @Override
     public void createFeedRecomment(FeedRecommentCreateEvent message) {
         FeedRecomment feedRecomment = message.toEntity();
         feedRecommentRepository.save(feedRecomment);
-        incrementRecommentCount(feedRecomment.getCommentUuid());
     }
 
     @Override
@@ -49,7 +47,6 @@ public class FeedRecommentServiceImpl implements FeedRecommentService {
         FeedRecomment recomment = feedRecommentRepository.findByRecommentUuid(message.getRecommentUuid()).orElseThrow(
                 () -> new BaseException(BaseResponseStatus.NO_EXIST_RECOMMENT)
         );
-        decrementRecommentCount(recomment.getCommentUuid());
         feedRecommentRepository.deleteByRecommentUuid(recomment.getRecommentUuid());
     }
 
@@ -64,15 +61,4 @@ public class FeedRecommentServiceImpl implements FeedRecommentService {
     }
 
     //todo : 댓글, 대댓글 수 count - 추후 batch로 구현 예정
-    public void incrementRecommentCount(String commentUuid) {
-        Query query = new Query(Criteria.where("commentUuid").is(commentUuid));
-        Update update = new Update().inc("recommentCount", 1);
-        mongoTemplate.updateFirst(query, update, FeedComment.class);
-    }
-
-    public void decrementRecommentCount(String commentUuid) {
-        Query query = new Query(Criteria.where("commentUuid").is(commentUuid));
-        Update update = new Update().inc("recommentCount", -1);
-        mongoTemplate.updateFirst(query, update, FeedComment.class);
-    }
 }

@@ -73,9 +73,8 @@ public class FeedCommentServiceImpl implements FeedCommentService {
     }
 
     public String buildCursor(FeedComment comment) {
-
         String cursor = String.format("%010d", comment.getLikeCount())
-                + String.format("%010d", 1000000000 - comment.getDislikeCount())
+                + String.format("%010d", 1000000000L - comment.getDislikeCount())
                 + String.format("%010d", comment.getRecommentCount())
                 + comment.getId(); // ID 추가
 

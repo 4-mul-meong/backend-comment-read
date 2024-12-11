@@ -26,13 +26,11 @@ public class ShortsRecommentServiceImpl implements ShortsRecommentService {
 
     private final ShortsRecommentRepository shortsRecommentRepository;
     private final ShortsRecommentRepositoryCustom shortsRecommentRepositoryCustom;
-    private final MongoTemplate mongoTemplate;
 
     @Override
     public void createShortsRecomment(ShortsRecommentCreateEvent message) {
         ShortsRecomment shortsRecomment = message.toEntity();
         shortsRecommentRepository.save(shortsRecomment);
-        incrementRecommentCount(shortsRecomment.getCommentUuid());
     }
 
     @Override
@@ -49,7 +47,6 @@ public class ShortsRecommentServiceImpl implements ShortsRecommentService {
         ShortsRecomment recomment = shortsRecommentRepository.findByRecommentUuid(message.getRecommentUuid())
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NO_EXIST_RECOMMENT)
         );
-        decrementRecommentCount(recomment.getCommentUuid());
         shortsRecommentRepository.deleteByRecommentUuid(recomment.getRecommentUuid());
     }
 
@@ -65,16 +62,5 @@ public class ShortsRecommentServiceImpl implements ShortsRecommentService {
 
 
     //todo : 댓글, 대댓글 수 count - 추후 batch로 구현 예정
-    public void incrementRecommentCount(String commentUuid) {
-        Query query = new Query(Criteria.where("commentUuid").is(commentUuid));
-        Update update = new Update().inc("recommentCount", 1);
-        mongoTemplate.updateFirst(query, update, ShortsComment.class);
-    }
-
-    public void decrementRecommentCount(String commentUuid) {
-        Query query = new Query(Criteria.where("commentUuid").is(commentUuid));
-        Update update = new Update().inc("recommentCount", -1);
-        mongoTemplate.updateFirst(query, update, ShortsComment.class);
-    }
 
 }

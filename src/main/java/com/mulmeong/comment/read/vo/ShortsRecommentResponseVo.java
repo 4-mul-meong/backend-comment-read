@@ -15,7 +15,7 @@ public class ShortsRecommentResponseVo {
     private String content;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    private Integer likeCount;
-    private Integer dislikeCount;
+    private Long likeCount;
+    private Long dislikeCount;
 
 }

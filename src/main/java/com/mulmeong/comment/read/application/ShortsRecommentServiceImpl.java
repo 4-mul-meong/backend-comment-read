@@ -60,7 +60,4 @@ public class ShortsRecommentServiceImpl implements ShortsRecommentService {
                 .map(ShortsRecommentResponseDto::toDto).toList());
     }
 
-
-    //todo : 댓글, 대댓글 수 count - 추후 batch로 구현 예정
-
 }

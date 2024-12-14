@@ -31,8 +31,8 @@ public class FeedCommentServiceImpl implements FeedCommentService {
 
     @Override
     public void createFeedComment(FeedCommentCreateEvent message) {
-        FeedComment feedComment = message.toEntity();
-        feedCommentRepository.save(feedComment);
+        FeedComment feedComment = feedCommentRepository.save(message.toEntity());
+        buildCursor(feedComment);
     }
 
     @Override
@@ -62,9 +62,6 @@ public class FeedCommentServiceImpl implements FeedCommentService {
             Integer pageSize,
             Integer pageNo) {
 
-        List<String> cursors = feedCommentRepository.findByFeedUuid(feedUuid).stream()
-                .map(this::buildCursor)
-                .toList();
         CursorPage<FeedComment> cursorPage = feedCommentRepositoryCustom.getFeedComments(
                 feedUuid, sortBy, lastId, pageSize, pageNo);
 
@@ -72,7 +69,7 @@ public class FeedCommentServiceImpl implements FeedCommentService {
                 .map(FeedCommentResponseDto::toDto).toList());
     }
 
-    public String buildCursor(FeedComment comment) {
+    public void buildCursor(FeedComment comment) {
         String cursor = String.format("%010d", comment.getLikeCount())
                 + String.format("%010d", 1000000000L - comment.getDislikeCount())
                 + String.format("%010d", comment.getRecommentCount())
@@ -81,6 +78,5 @@ public class FeedCommentServiceImpl implements FeedCommentService {
         Query query = new Query(Criteria.where("commentUuid").is(comment.getCommentUuid()));
         Update update = new Update().set("customCursor", cursor);
         mongoTemplate.updateFirst(query, update, FeedComment.class);
-        return cursor;
     }
 }

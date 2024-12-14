@@ -60,5 +60,4 @@ public class FeedRecommentServiceImpl implements FeedRecommentService {
                 .map(FeedRecommentResponseDto::toDto).toList());
     }
 
-    //todo : 댓글, 대댓글 수 count - 추후 batch로 구현 예정
 }
